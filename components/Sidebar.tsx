@@ -1,77 +1,66 @@
 "use client";
-import { useState } from "react";
-import { Shield, Rocket, Coins, BarChart3, ThumbsUp, ThumbsDown } from "lucide-react";
+import { Shield, Rocket, Coins, BarChart3, GraduationCap, Building2, Star } from "lucide-react";
 import Link from "next/link";
 
 export default function Sidebar({ setInput }: { setInput: (t: string) => void }) {
-  const [stance, setStance] = useState<"Pro" | "Con">("Pro");
-
   const topics = [
-    { name: "AI Ethics", icon: <Shield size={16} /> },
-    { name: "Space Exploration", icon: <Rocket size={16} /> },
-    { name: "Bitcoin", icon: <Coins size={16} /> },
+    { name: "KI-Ethik", icon: <Shield size={16} /> },
+    { name: "Raumfahrt", icon: <Rocket size={16} /> },
+    { name: "Bitcoin & Finanzen", icon: <Coins size={16} /> },
   ];
 
   return (
     <div className="flex flex-col h-full p-4 bg-slate-50 border-r border-slate-200">
-      
-      {/* NEW: Stance Selector */}
-      <div className="mb-6">
-        <h3 className="px-3 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
-          Your Stance
-        </h3>
-        <div className="flex gap-2 px-2">
-          <button 
-            onClick={() => setStance("Pro")}
-            className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-bold transition-all border ${
-              stance === "Pro" 
-                ? "bg-green-100 text-green-700 border-green-300 shadow-sm" 
-                : "bg-white text-slate-500 border-slate-200 hover:bg-slate-100"
-            }`}
-          >
-            <ThumbsUp size={14} /> Pro
-          </button>
-          <button 
-            onClick={() => setStance("Con")}
-            className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-bold transition-all border ${
-              stance === "Con" 
-                ? "bg-red-100 text-red-700 border-red-300 shadow-sm" 
-                : "bg-white text-slate-500 border-slate-200 hover:bg-slate-100"
-            }`}
-          >
-            <ThumbsDown size={14} /> Con
-          </button>
+      <div className="space-y-6">
+        {/* Training Area */}
+        <div>
+          <h3 className="px-3 text-xs font-black text-slate-400 uppercase tracking-widest mb-4">Training Arena</h3>
+          <div className="space-y-1">
+            {topics.map((t) => (
+              <button
+                key={t.name}
+                onClick={() => setInput(`Ich möchte über ${t.name} debattieren.`)}
+                className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-white hover:shadow-sm hover:text-blue-600 rounded-lg transition-all"
+              >
+                {t.icon}
+                {t.name}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* B2B & Premium Section */}
+        <div>
+          <h3 className="px-3 text-xs font-black text-slate-400 uppercase tracking-widest mb-4">Premium & B2B</h3>
+          <div className="space-y-1">
+            <button className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg">
+              <GraduationCap size={16} />
+              Debate-Zertifikat ($49)
+            </button>
+            <button className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white rounded-lg transition-all">
+              <Building2 size={16} />
+              Schul-Lizenzen
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Topics Section */}
-      <div className="space-y-1">
-        <h3 className="px-3 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-          Training Grounds
-        </h3>
-        {topics.map((t) => (
-          <button
-            key={t.name}
-            onClick={() => setInput(`I want to debate about ${t.name}. I will take the ${stance} side. You start.`)}
-            className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-white hover:shadow-sm hover:text-blue-600 rounded-lg transition-all border border-transparent hover:border-slate-200"
-          >
-            {t.icon}
-            {t.name}
-          </button>
-        ))}
-      </div>
-
-      {/* Bottom Section (Admin & Status) */}
-      <div className="mt-auto space-y-2">
-        <Link href="/admin" className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-600 hover:text-blue-600">
-          <BarChart3 size={16} />
-          Admin Analytics
+      <div className="mt-auto space-y-4">
+        {/* Admin Link */}
+        <Link href="/admin" className="flex items-center gap-3 px-3 py-2 text-xs font-bold text-slate-500 hover:text-blue-600 transition-colors uppercase tracking-tight">
+          <BarChart3 size={14} />
+          Admin Dashboard
         </Link>
-        <div className="p-4 bg-blue-600 rounded-xl text-white shadow-lg shadow-blue-200">
-          <p className="text-[10px] font-bold uppercase opacity-80 mb-1">Status</p>
-          <p className="text-xs font-medium">Freemium Active</p>
-          <div className="mt-2 h-1 w-full bg-blue-400 rounded-full overflow-hidden">
-            <div className="h-full bg-white w-2/3"></div>
+
+        {/* Status Card */}
+        <div className="p-4 bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl text-white shadow-lg border border-slate-700">
+          <div className="flex items-center gap-2 mb-2">
+            <Star size={12} className="text-yellow-400 fill-yellow-400" />
+            <p className="text-[10px] font-bold uppercase tracking-tighter">Freemium Plan</p>
+          </div>
+          <p className="text-[11px] text-slate-400 mb-2">Refinanziert durch Daten-Monetarisierung.</p>
+          <div className="h-1 w-full bg-slate-700 rounded-full overflow-hidden">
+            <div className="h-full bg-blue-500 w-1/3"></div>
           </div>
         </div>
       </div>
