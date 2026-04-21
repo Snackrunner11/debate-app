@@ -1,4 +1,5 @@
 "use client";
+import ReactMarkdown from "react-markdown";
 
 interface ChatProps {
   messages: { role: string; text: string }[];
@@ -21,7 +22,22 @@ export default function ChatWindow({ messages, input, setInput, onSend, isTyping
                 ? "bg-blue-600 text-white border-blue-500 rounded-2xl rounded-br-none" 
                 : "bg-white text-slate-800 border-slate-200 rounded-2xl rounded-bl-none"
             }`}>
-              <p className="text-sm leading-relaxed">{m.text}</p>
+              
+              {/* Markdown Renderer in einem Div verpackt (Error Fix) */}
+              <div className="text-sm leading-relaxed space-y-3">
+                <ReactMarkdown 
+                  components={{
+                    p: ({node, ...props}) => <p className="mb-2 last:mb-0" {...props} />,
+                    ul: ({node, ...props}) => <ul className="list-disc ml-5 mb-2" {...props} />,
+                    ol: ({node, ...props}) => <ol className="list-decimal ml-5 mb-2" {...props} />,
+                    li: ({node, ...props}) => <li className="mb-1" {...props} />,
+                    strong: ({node, ...props}) => <strong className="font-bold" {...props} />,
+                  }}
+                >
+                  {m.text}
+                </ReactMarkdown>
+              </div>
+
             </div>
           </div>
         ))}
