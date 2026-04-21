@@ -29,18 +29,18 @@ export default function Sidebar({ setInput }: { setInput: (t: string) => void })
           </div>
         </div>
 
-        {/* B2B & Premium Section */}
+        {/* B2B & Premium Section mit echten Links */}
         <div>
           <h3 className="px-3 text-xs font-black text-slate-400 uppercase tracking-widest mb-4">Premium & B2B</h3>
           <div className="space-y-1">
-            <button className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg">
+            <Link href="/premium/certificate" className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
               <GraduationCap size={16} />
               Debate-Zertifikat ($49)
-            </button>
-            <button className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white rounded-lg transition-all">
+            </Link>
+            <Link href="/premium/b2b" className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white rounded-lg transition-all hover:text-slate-900 hover:shadow-sm border border-transparent hover:border-slate-200">
               <Building2 size={16} />
               Schul-Lizenzen
-            </button>
+            </Link>
           </div>
         </div>
       </div>

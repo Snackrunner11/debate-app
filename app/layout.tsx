@@ -1,7 +1,8 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { ShieldCheck, X } from "lucide-react";
+import Link from "next/link"; // WICHTIG: Der Import für die Links
 import "./globals.css";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -28,9 +29,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <button onClick={() => setShowPolicy(false)} className="text-[10px] bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-md font-bold transition-colors">
                     Akzeptieren & Starten
                   </button>
-                  <button className="text-[10px] text-slate-500 hover:text-white transition-colors">
+                  
+                  {/* Der aktualisierte Link zur Policy */}
+                  <Link href="/policy" onClick={() => setShowPolicy(false)} className="text-[10px] text-slate-400 hover:text-white transition-colors underline">
                     Mehr erfahren
-                  </button>
+                  </Link>
                 </div>
               </div>
               <button onClick={() => setShowPolicy(false)} className="text-slate-500 hover:text-white">
@@ -40,6 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
         )}
 
+        {/* Google Analytics */}
         <GoogleAnalytics gaId="G-RY0YC4P9TD" />
       </body>
     </html>
