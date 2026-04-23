@@ -1,5 +1,6 @@
 "use client";
 import ReactMarkdown from "react-markdown";
+import { useEffect, useRef } from "react";
 
 interface ChatProps {
   messages: { role: string; text: string }[];
@@ -10,10 +11,23 @@ interface ChatProps {
 }
 
 export default function ChatWindow({ messages, input, setInput, onSend, isTyping }: ChatProps) {
+  // Referenz für den untersten Punkt im Chat
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Funktion zum automatischen Scrollen
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // Scrollt jedes Mal, wenn sich die Nachrichten oder der isTyping-Status ändern
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, isTyping]);
+
   return (
-    <div className="flex flex-col h-full bg-slate-50 relative">
+    <div className="flex flex-col h-full bg-slate-50 relative overflow-hidden">
       
-      {/* Messages Area */}
+      {/* Nachrichten-Bereich */}
       <div className="flex-1 overflow-y-auto p-8 space-y-6">
         {messages.map((m, i) => (
           <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
@@ -23,7 +37,6 @@ export default function ChatWindow({ messages, input, setInput, onSend, isTyping
                 : "bg-white text-slate-800 border-slate-200 rounded-2xl rounded-bl-none"
             }`}>
               
-              {/* Markdown Renderer in einem Div verpackt (Error Fix) */}
               <div className="text-sm leading-relaxed space-y-3">
                 <ReactMarkdown 
                   components={{
@@ -42,17 +55,19 @@ export default function ChatWindow({ messages, input, setInput, onSend, isTyping
           </div>
         ))}
         
-        {/* "Thinking..." State */}
         {isTyping && (
           <div className="flex justify-start">
             <div className="bg-white p-4 rounded-2xl rounded-bl-none border border-slate-200 animate-pulse text-slate-400 text-xs shadow-sm">
-              Coach is analyzing your logic...
+              Coach analysiert deine Logik...
             </div>
           </div>
         )}
+        
+        {/* HIER GEFIXT: Unsichtbarer Platzhalter für den Abstand und den Scroll-Anker */}
+        <div className="h-8 w-full" ref={messagesEndRef} />
       </div>
 
-      {/* Input Area */}
+      {/* Eingabe-Bereich */}
       <div className="p-4 bg-white border-t border-slate-200 shadow-[0_-4px_20px_-10px_rgba(0,0,0,0.05)]">
         <div className="max-w-4xl mx-auto flex gap-3">
           <input 
@@ -60,14 +75,14 @@ export default function ChatWindow({ messages, input, setInput, onSend, isTyping
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && onSend()}
-            placeholder="Counter the argument..."
+            placeholder="Kontere das Argument..."
           />
           <button 
             onClick={onSend}
             disabled={isTyping}
             className="bg-blue-600 text-white px-8 py-3 rounded-full font-bold hover:bg-blue-700 active:scale-95 disabled:opacity-50 transition-all shadow-md shadow-blue-200"
           >
-            Debate
+            Senden
           </button>
         </div>
       </div>
